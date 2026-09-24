@@ -6,6 +6,10 @@
   "scripts": {
     "deploy": "gh-pages -d ."
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HuyNG25/HDC-Fashion.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
