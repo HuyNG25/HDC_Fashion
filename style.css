@@ -1035,50 +1035,57 @@ input, select, textarea {
 .products__filters {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-2xl);
-  flex-wrap: wrap;
-  padding: 0 var(--space-sm);
+  justify-content: flex-start;
+  gap: 4px;
+  margin: 0 auto var(--space-2xl);
+  flex-wrap: nowrap;
+  padding: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  background: rgba(30, 58, 95, 0.05);
+  border-radius: 100px;
+  width: max-content;
+  max-width: 100%;
+}
+.products__filters::-webkit-scrollbar {
+  display: none;
 }
 
-/* Scrollable filters on small screens */
+/* Scrollable filters on small screens - mostly handled above now, but keeping for safety */
 @media (max-width: 900px) {
   .products__filters {
     justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: var(--space-sm);
-  }
-  .products__filters::-webkit-scrollbar {
-    display: none;
+    border-radius: 0;
+    width: 100%;
+    background: transparent;
+    padding: 4px 16px;
   }
 }
 
 .products__filter {
-  padding: 8px 22px;
+  padding: 10px 24px;
   font-size: var(--fs-sm);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--clr-text-secondary);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--clr-border);
-  background: var(--clr-bg-alt);
-  transition: all var(--transition-fast);
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .products__filter:hover {
-  border-color: var(--clr-primary);
   color: var(--clr-primary);
+  background: rgba(30, 58, 95, 0.08);
 }
 
 .products__filter--active {
-  background: var(--clr-primary);
-  color: #fff;
-  border-color: var(--clr-primary);
+  background: var(--clr-primary) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(30, 58, 95, 0.25);
 }
 
 /* Grid */
