@@ -632,6 +632,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Toggle the desktop category dropdown on click instead of navigating away.
+  const dropdownItems = document.querySelectorAll('.header__nav-item--has-dropdown');
+  dropdownItems.forEach(dropdownItem => {
+    const dropdownToggle = dropdownItem.querySelector('.header__nav-link');
+
+    dropdownToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isOpen = dropdownItem.classList.toggle('is-open');
+      dropdownToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    dropdownItems.forEach(dropdownItem => {
+      if (!dropdownItem.contains(e.target)) {
+        dropdownItem.classList.remove('is-open');
+        dropdownItem.querySelector('.header__nav-link').setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
   // Handle [data-tab-nav] navigation links in Header, Dropdown, Footer, Mobile Menu
   document.querySelectorAll('[data-tab-nav]').forEach(navLink => {
     navLink.addEventListener('click', (e) => {
