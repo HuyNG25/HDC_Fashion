@@ -1807,6 +1807,438 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
+  <!-- ═══════════════════════════════════════════════════════════════
+       HDC FASHION CHATBOT WIDGET
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="hdc-chat" id="hdc-chat">
+    <!-- Toggle Button -->
+    <button class="hdc-chat__toggle" id="hdc-chat-toggle" aria-label="Mở tư vấn viên HDC">
+      <span class="hdc-chat__toggle-icon hdc-chat__toggle-icon--open">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </span>
+      <span class="hdc-chat__toggle-icon hdc-chat__toggle-icon--close" style="display:none">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </span>
+      <span class="hdc-chat__toggle-pulse"></span>
+    </button>
+
+    <!-- Chat Window -->
+    <div class="hdc-chat__window" id="hdc-chat-window" aria-hidden="true">
+      <!-- Header -->
+      <div class="hdc-chat__header">
+        <div class="hdc-chat__header-avatar">
+          <span>H</span>
+          <span class="hdc-chat__status-dot"></span>
+        </div>
+        <div class="hdc-chat__header-info">
+          <span class="hdc-chat__header-name">Tư Vấn Viên HDC</span>
+          <span class="hdc-chat__header-status">🟢 Đang hoạt động</span>
+        </div>
+        <button class="hdc-chat__close-btn" id="hdc-chat-close" aria-label="Đóng chat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Messages -->
+      <div class="hdc-chat__messages" id="hdc-chat-messages">
+        <div class="hdc-chat__msg hdc-chat__msg--bot">
+          <div class="hdc-chat__msg-avatar">H</div>
+          <div class="hdc-chat__msg-content">
+            <p>Xin chào! 👋 Tôi là <strong>Tư vấn viên HDC Fashion</strong>.</p>
+            <p>Tôi có thể giúp bạn tìm hiểu về đồng phục, báo giá, chất liệu vải, quy trình đặt hàng và nhiều thông tin khác. Bạn muốn hỏi gì? 😊</p>
+          </div>
+        </div>
+        <!-- Quick reply chips -->
+        <div class="hdc-chat__quick-replies" id="hdc-quick-replies">
+          <button class="hdc-chat__chip" data-query="Bảng giá đồng phục">💰 Bảng giá</button>
+          <button class="hdc-chat__chip" data-query="Chất liệu vải Bamboo là gì?">🌿 Chất liệu Bamboo</button>
+          <button class="hdc-chat__chip" data-query="Quy trình đặt hàng">📋 Quy trình đặt hàng</button>
+          <button class="hdc-chat__chip" data-query="Đồng phục học sinh">🎓 Đồng phục học sinh</button>
+          <button class="hdc-chat__chip" data-query="Thời gian sản xuất">⏱️ Thời gian giao hàng</button>
+          <button class="hdc-chat__chip" data-query="Liên hệ hotline">📞 Liên hệ</button>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="hdc-chat__input-area">
+        <input
+          type="text"
+          class="hdc-chat__input"
+          id="hdc-chat-input"
+          placeholder="Nhập câu hỏi của bạn..."
+          autocomplete="off"
+          maxlength="300"
+        />
+        <button class="hdc-chat__send" id="hdc-chat-send" aria-label="Gửi tin nhắn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="hdc-chat__footer">
+        <span>🔒 HDC Fashion · Hotline: <a href="tel:0984959586">0984 95 95 86</a></span>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
+  <script>
+  /* ═══════════════════════════════════════════════════════
+     HDC FASHION CHATBOT - Knowledge Base & Engine
+  ═══════════════════════════════════════════════════════ */
+  (function () {
+    'use strict';
+
+    /* ── Knowledge Base ─────────────────────────────────── */
+    const KB = [
+      // PRODUCTS
+      {
+        keys: ['áo polo', 'polo', 'ao polo'],
+        answer: `<strong>Áo Polo HDC Fashion</strong><br>
+• Chất liệu: Cotton Pique 220gsm, Bamboo Cotton, CVC 65/35<br>
+• Phong cách: Cổ bẻ, tay ngắn, thêu logo theo yêu cầu<br>
+• Ứng dụng: Đồng phục công sở, sự kiện, teambuilding<br>
+• Số lượng tối thiểu: <strong>50 cái/màu</strong><br>
+• Giá từ: <strong>120.000đ – 280.000đ/cái</strong> (tùy SL & chất liệu)<br>
+<a href="#products" class="hdc-chat__link">👕 Xem bộ sưu tập Áo Polo</a>`
+      },
+      {
+        keys: ['sơ mi', 'so mi', 'áo sơ mi', 'shirt'],
+        answer: `<strong>Áo Sơ Mi HDC Fashion</strong><br>
+• Chất liệu: Oxford 65/35, Poplin 100% cotton, lụa tơ tằm<br>
+• Kiểu dáng: Tay ngắn / tay dài, cổ button-down, French cuff<br>
+• Thêu logo, in tên theo yêu cầu<br>
+• Số lượng tối thiểu: <strong>30 cái/mẫu</strong><br>
+• Giá từ: <strong>150.000đ – 350.000đ/cái</strong><br>
+<a href="#products" class="hdc-chat__link">👔 Xem Áo Sơ Mi</a>`
+      },
+      {
+        keys: ['áo thun', 'thun', 'tshirt', 't-shirt', 'teambuilding', 'sự kiện'],
+        answer: `<strong>Áo Thun & Sự Kiện HDC Fashion</strong><br>
+• Chất liệu: 100% Cotton 220gsm, CVC, Dri-fit<br>
+• In ấn: In nhiệt, in lụa, in sublimation – sắc nét, bền màu<br>
+• Phù hợp: Teambuilding, sự kiện công ty, marathon<br>
+• Số lượng tối thiểu: <strong>100 cái</strong><br>
+• Giá từ: <strong>75.000đ – 180.000đ/cái</strong><br>
+<a href="#products" class="hdc-chat__link">⚡ Xem Áo Thun & Sự Kiện</a>`
+      },
+      {
+        keys: ['vest', 'blazer', 'bộ vest', 'suit'],
+        answer: `<strong>Vest & Blazer HDC Fashion</strong><br>
+• Chất liệu: Polyester-Viscose, Wool blend cao cấp<br>
+• May đo chuẩn số: 48 - 52 - 56 hoặc may theo số đo riêng<br>
+• Hoàn thiện: Lót trong, khuy áo, thêu huy hiệu công ty<br>
+• Số lượng tối thiểu: <strong>10 bộ</strong><br>
+• Giá từ: <strong>800.000đ – 2.500.000đ/bộ</strong><br>
+<a href="#products" class="hdc-chat__link">🧥 Xem Vest & Blazer</a>`
+      },
+      {
+        keys: ['đồng phục doanh nghiệp', 'corporate', 'công ty', 'tập đoàn', 'ngân hàng'],
+        answer: `<strong>Đồng Phục Doanh Nghiệp HDC</strong><br>
+HDC Fashion là đối tác tin cậy của hơn <strong>5.000+ tập đoàn, ngân hàng và cơ quan nhà nước</strong>.<br><br>
+📦 Gói dịch vụ trọn gói:<br>
+• Tư vấn thiết kế – may mẫu thử MIỄN PHÍ<br>
+• Thiết kế 3D logo & đồng phục<br>
+• May đo theo số liệu nhân viên<br>
+• Giao hàng toàn quốc<br>
+• Bảo hành chất lượng 12 tháng<br>
+<a href="#b2b-form" class="hdc-chat__link">✍️ Đăng ký báo giá ngay</a>`
+      },
+      {
+        keys: ['đồng phục học sinh', 'học sinh', 'trường học', 'school', 'phụ huynh'],
+        answer: `<strong>Đồng Phục Học Sinh HDC Fashion</strong><br>
+• Chất liệu: Bamboo Cotton – mềm mại, kháng khuẩn, thấm hút<br>
+• Kiểu dáng: Áo trắng cổ bẻ, quần/váy xanh, áo khoác đồng màu<br>
+• Kích thước: S1 đến S10 (phù hợp mọi lứa tuổi)<br>
+• Thêu tên trường, logo theo yêu cầu<br>
+• Số lượng tối thiểu: <strong>50 bộ/trường</strong><br>
+• Giá từ: <strong>200.000đ – 450.000đ/bộ</strong><br>
+<a href="#products" class="hdc-chat__link">🎓 Xem Đồng Phục Học Sinh</a>`
+      },
+      // MATERIALS
+      {
+        keys: ['bamboo', 'sợi tre', 'bamboo cotton', 'tơ chuối', 'sinh học', 'eco'],
+        answer: `<strong>Vải Bamboo & Sinh Học Độc Quyền</strong> 🌿<br>
+HDC Fashion tiên phong ứng dụng:<br>
+• <strong>100% Bamboo Cotton</strong>: Mềm như lụa, kháng khuẩn tự nhiên, thấm hút 3x cotton thường<br>
+• <strong>Tơ Chuối Sinh Học</strong>: Phân hủy sinh học hoàn toàn, thân thiện môi trường<br>
+• <strong>Seamless Technology</strong>: May liền mạch không đường chỉ, không gây kích ứng<br>
+• Chứng nhận: <strong>OEKO-TEX Standard 100</strong> – an toàn tuyệt đối<br>
+<a href="#fabrics-tech" class="hdc-chat__link">🔬 Tìm hiểu Chất Liệu Độc Quyền</a>`
+      },
+      {
+        keys: ['seamless', 'liền mạch', 'công nghệ may'],
+        answer: `<strong>Công Nghệ May Seamless</strong><br>
+• May liền mạch – không đường chỉ nổi<br>
+• Tăng độ đàn hồi, thoải mái khi vận động<br>
+• Không gây kích ứng da, phù hợp mặc cả ngày<br>
+• Ứng dụng trong: áo polo, áo thun thể thao, đồng phục học sinh<br>
+Đây là công nghệ <strong>độc quyền tại Việt Nam</strong> của HDC Fashion.`
+      },
+      // PRICING
+      {
+        keys: ['giá', 'bảng giá', 'báo giá', 'chi phí', 'giá cả', 'tiền', 'bao nhiêu'],
+        answer: `<strong>Bảng Giá Tham Khảo HDC Fashion</strong> 💰<br><br>
+| Sản phẩm | Giá từ |<br>
+|---|---|<br>
+| Áo Polo | 120.000 – 280.000đ |<br>
+| Áo Sơ Mi | 150.000 – 350.000đ |<br>
+| Áo Thun | 75.000 – 180.000đ |<br>
+| Bộ Vest & Blazer | 800.000 – 2.500.000đ |<br>
+| Đồng phục học sinh | 200.000 – 450.000đ/bộ |<br><br>
+⚠️ Giá thay đổi theo <strong>số lượng, chất liệu và mức độ hoàn thiện</strong>.<br>
+Đặt hàng <strong>500+ sản phẩm</strong> được giảm thêm 5-15%.<br>
+<a href="#b2b-form" class="hdc-chat__link">📩 Nhận báo giá chính xác ngay</a>`
+      },
+      // PROCESS
+      {
+        keys: ['quy trình', 'đặt hàng', 'cách đặt', 'order', 'mua hàng', 'đặt may'],
+        answer: `<strong>Quy Trình Đặt May HDC Fashion</strong> 📋<br><br>
+<strong>1️⃣ Tư vấn & thiết kế:</strong> Liên hệ hotline hoặc điền form – nhận tư vấn 1:1<br>
+<strong>2️⃣ May mẫu thử MIỄN PHÍ:</strong> Gửi mẫu thực tế trong 3-5 ngày làm việc<br>
+<strong>3️⃣ Duyệt mẫu & xác nhận:</strong> Ký hợp đồng, chốt số lượng và tiến độ<br>
+<strong>4️⃣ Sản xuất:</strong> 7-21 ngày tùy số lượng (SL lớn có thể nhanh hơn)<br>
+<strong>5️⃣ QC & Giao hàng:</strong> Kiểm tra 100% – giao toàn quốc, có theo dõi đơn hàng<br>
+<strong>6️⃣ Bảo hành:</strong> 12 tháng – đổi sản phẩm lỗi miễn phí<br>
+<a href="#b2b-form" class="hdc-chat__link">🚀 Bắt đầu đặt may ngay</a>`
+      },
+      {
+        keys: ['thời gian', 'bao lâu', 'giao hàng', 'tiến độ', 'deadline', 'nhanh'],
+        answer: `<strong>Thời Gian Sản Xuất & Giao Hàng</strong> ⏱️<br><br>
+• <strong>May mẫu thử:</strong> 3 – 5 ngày làm việc (MIỄN PHÍ)<br>
+• <strong>50 – 200 sản phẩm:</strong> 7 – 10 ngày<br>
+• <strong>200 – 1.000 sản phẩm:</strong> 10 – 15 ngày<br>
+• <strong>1.000+ sản phẩm:</strong> 15 – 21 ngày<br><br>
+🚀 Có dịch vụ <strong>sản xuất khẩn cấp</strong> (phụ phí 10-15%).<br>
+📦 Giao hàng toàn quốc qua GHTK, J&T, xe tải riêng cho đơn lớn.`
+      },
+      // CERTIFICATIONS / ABOUT
+      {
+        keys: ['iso', 'chứng nhận', 'tiêu chuẩn', 'oeko', 'oeko-tex', 'chất lượng'],
+        answer: `<strong>Chứng Nhận & Tiêu Chuẩn Chất Lượng</strong> 🏆<br><br>
+• <strong>ISO 9001:2015</strong> – Hệ thống quản lý chất lượng quốc tế<br>
+• <strong>OEKO-TEX Standard 100</strong> – Vải không chứa chất độc hại<br>
+• <strong>Niêm yết sàn chứng khoán HOSE/HNX</strong> – HDC Group<br>
+• <strong>10 năm</strong> phát triển bền vững (2014 – 2024)<br>
+• Quy mô: <strong>2 nhà máy</strong>, diện tích <strong>15.000m²</strong><br>
+• Năng lực: <strong>150.000 sản phẩm/tháng</strong>`
+      },
+      {
+        keys: ['hdc', 'công ty', 'về hdc', 'giới thiệu', 'lịch sử', 'thành lập'],
+        answer: `<strong>Về HDC Fashion</strong> 🏢<br><br>
+<strong>Công ty Cổ phần Thời trang HDC</strong> – thành viên Tập đoàn HDC (Niêm yết sàn HOSE/HNX).<br><br>
+• Thành lập: <strong>2014</strong> tại Hà Nội<br>
+• <strong>10 năm</strong> tiên phong đồng phục cao cấp Việt Nam<br>
+• Khách hàng: <strong>5.000+</strong> tập đoàn, ngân hàng, trường học<br>
+• 2 nhà máy tổng <strong>15.000m²</strong>, năng suất 150.000 sp/tháng<br>
+• Địa chỉ: <strong>Số 6, Kim Đồng, Hoàng Mai, Hà Nội</strong><br>
+<a href="#about-hdc-milestone" class="hdc-chat__link">🏛️ Xem Hồ Sơ Tập Đoàn</a>`
+      },
+      // CONTACT
+      {
+        keys: ['liên hệ', 'hotline', 'điện thoại', 'sdt', 'số điện thoại', 'zalo', 'email', 'gặp', 'tư vấn'],
+        answer: `<strong>Liên Hệ HDC Fashion</strong> 📞<br><br>
+• <strong>Hotline B2B:</strong> <a href="tel:0984959586">0984 95 95 86</a> (8:00 – 20:00 mỗi ngày)<br>
+• <strong>Email:</strong> <a href="mailto:dongphuc@hdcfashion.vn">dongphuc@hdcfashion.vn</a><br>
+• <strong>Địa chỉ:</strong> Số 6, Kim Đồng, Hoàng Mai, Hà Nội<br>
+• <strong>Zalo:</strong> 0984 95 95 86 (quét QR hoặc nhắn tin)<br><br>
+<a href="#b2b-form" class="hdc-chat__link">📩 Điền form nhận báo giá nhanh</a>`
+      },
+      {
+        keys: ['catalogue', 'catalog', 'pdf', 'tải', 'brochure'],
+        answer: `<strong>E-Catalogue HDC Fashion</strong> 📖<br><br>
+Bộ catalogue đầy đủ gồm toàn bộ sản phẩm, chất liệu vải và bảng giá tham khảo.<br><br>
+• <strong>Định dạng:</strong> PDF (25MB)<br>
+• <strong>Nội dung:</strong> 90+ trang, hình ảnh HD<br>
+• <strong>Miễn phí</strong> tải về<br>
+<a href="#catalogue-download" class="hdc-chat__link">📥 Tải Catalogue ngay</a>`
+      },
+      {
+        keys: ['lookbook', 'mẫu', 'hình ảnh', 'ảnh thực tế', 'demo', 'xem mẫu'],
+        answer: `<strong>Lookbook & Mẫu Thực Tế HDC Fashion</strong> 📸<br><br>
+Bộ sưu tập ảnh thực tế từ các đơn hàng đã thực hiện:<br>
+• Đồng phục tập đoàn lớn (ngân hàng, bất động sản, F&B)<br>
+• Đồng phục học sinh – áo trắng, áo thể dục<br>
+• Áo sự kiện & teambuilding<br>
+• Vest & Blazer công sở<br>
+<a href="#lookbook" class="hdc-chat__link">📸 Xem Lookbook</a>`
+      },
+      {
+        keys: ['may mẫu', 'mẫu thử', 'miễn phí', 'free', 'thử', 'dùng thử'],
+        answer: `<strong>May Mẫu Thử MIỄN PHÍ</strong> 🎁<br><br>
+HDC Fashion cung cấp dịch vụ:<br>
+• ✅ <strong>May 1 mẫu thử miễn phí</strong> theo yêu cầu<br>
+• ✅ <strong>Thiết kế 3D</strong> đồng phục + logo miễn phí<br>
+• ✅ Chỉnh sửa không giới hạn đến khi hài lòng<br>
+• ✅ Giao mẫu tận nơi (nội thành HN)<br><br>
+Áp dụng cho đơn hàng từ <strong>50 sản phẩm trở lên</strong>.<br>
+<a href="#b2b-form" class="hdc-chat__link">🆓 Đăng ký may mẫu ngay</a>`
+      },
+      {
+        keys: ['thiết kế', 'logo', '3d', 'design', 'mockup'],
+        answer: `<strong>Dịch Vụ Thiết Kế HDC Fashion</strong> 🎨<br><br>
+• <strong>Thiết kế 3D Mockup</strong> đồng phục theo màu, form dáng thực tế<br>
+• <strong>Tư vấn bộ màu thương hiệu</strong> – phù hợp nhận diện công ty<br>
+• In ấn / thêu logo sắc nét, bền màu<br>
+• <strong>Hoàn toàn MIỄN PHÍ</strong> khi đặt hàng<br>
+• Đội ngũ designer chuyên nghiệp – phản hồi trong 24h`
+      },
+      {
+        keys: ['số lượng', 'tối thiểu', 'minimum', 'moc', 'mức tối thiểu'],
+        answer: `<strong>Số Lượng Tối Thiểu (MOQ)</strong> 📦<br><br>
+| Sản phẩm | Số lượng tối thiểu |<br>
+|---|---|<br>
+| Áo Polo | 50 cái/màu |<br>
+| Áo Sơ Mi | 30 cái/mẫu |<br>
+| Áo Thun | 100 cái |<br>
+| Vest & Blazer | 10 bộ |<br>
+| Đồng phục học sinh | 50 bộ/trường |<br><br>
+💬 Liên hệ để được tư vấn cho đơn hàng đặc biệt.`
+      },
+      {
+        keys: ['thanh toán', 'đặt cọc', 'payment', 'tiền cọc', 'trả góp'],
+        answer: `<strong>Chính Sách Thanh Toán</strong> 💳<br><br>
+• <strong>Đặt cọc:</strong> 30% – 50% khi xác nhận đơn hàng<br>
+• <strong>Thanh toán còn lại:</strong> Khi nhận hàng hoặc xuất kho<br>
+• Hình thức: Chuyển khoản ngân hàng, tiền mặt<br>
+• <strong>Xuất VAT hóa đơn đỏ</strong> theo yêu cầu<br>
+• Hợp đồng rõ ràng, minh bạch`
+      },
+      {
+        keys: ['bảo hành', 'đổi trả', 'lỗi', 'khiếu nại', 'guarantee'],
+        answer: `<strong>Chính Sách Bảo Hành & Đổi Trả</strong> 🛡️<br><br>
+• <strong>Bảo hành 12 tháng</strong> đối với lỗi sản xuất<br>
+• Đổi mới 100% sản phẩm lỗi – không tính phí<br>
+• Kiểm tra QC 100% trước khi xuất kho<br>
+• Cam kết: <strong>Đúng mẫu – Đúng màu – Đúng số lượng</strong><br>
+• Hỗ trợ bù bù bù sau nếu thiếu hàng đột xuất`
+      },
+    ];
+
+    /* ── Fuzzy Match ──────────────────────────────────────── */
+    function findAnswer(input) {
+      const q = input.toLowerCase().normalize('NFC');
+      let best = null;
+      let bestScore = 0;
+      for (const entry of KB) {
+        for (const key of entry.keys) {
+          if (q.includes(key)) {
+            const score = key.length;
+            if (score > bestScore) {
+              bestScore = score;
+              best = entry;
+            }
+          }
+        }
+      }
+      if (best) return best.answer;
+      // Fallback
+      return `Cảm ơn bạn đã hỏi! 🙏<br>Để được tư vấn chính xác nhất, vui lòng liên hệ trực tiếp:<br>
+• 📞 Hotline: <a href="tel:0984959586">0984 95 95 86</a><br>
+• 📧 Email: <a href="mailto:dongphuc@hdcfashion.vn">dongphuc@hdcfashion.vn</a><br>
+• <a href="#b2b-form" class="hdc-chat__link">📩 Hoặc điền form báo giá nhanh</a>`;
+    }
+
+    /* ── DOM References ────────────────────────────────────── */
+    const toggle    = document.getElementById('hdc-chat-toggle');
+    const window_   = document.getElementById('hdc-chat-window');
+    const closeBtn  = document.getElementById('hdc-chat-close');
+    const messages  = document.getElementById('hdc-chat-messages');
+    const input     = document.getElementById('hdc-chat-input');
+    const sendBtn   = document.getElementById('hdc-chat-send');
+    const quickReplies = document.getElementById('hdc-quick-replies');
+    const iconOpen  = toggle.querySelector('.hdc-chat__toggle-icon--open');
+    const iconClose = toggle.querySelector('.hdc-chat__toggle-icon--close');
+
+    let isOpen = false;
+
+    /* ── Open / Close ──────────────────────────────────────── */
+    function openChat() {
+      isOpen = true;
+      window_.classList.add('hdc-chat__window--open');
+      window_.setAttribute('aria-hidden', 'false');
+      iconOpen.style.display  = 'none';
+      iconClose.style.display = 'flex';
+      toggle.classList.add('hdc-chat__toggle--active');
+      input.focus();
+    }
+    function closeChat() {
+      isOpen = false;
+      window_.classList.remove('hdc-chat__window--open');
+      window_.setAttribute('aria-hidden', 'true');
+      iconOpen.style.display  = 'flex';
+      iconClose.style.display = 'none';
+      toggle.classList.remove('hdc-chat__toggle--active');
+    }
+
+    toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+    closeBtn.addEventListener('click', closeChat);
+
+    /* ── Add Message ────────────────────────────────────────── */
+    function addMessage(html, side) {
+      // Remove quick replies on first user message
+      if (side === 'user' && quickReplies) quickReplies.style.display = 'none';
+
+      const wrap = document.createElement('div');
+      wrap.className = `hdc-chat__msg hdc-chat__msg--${side}`;
+
+      if (side === 'bot') {
+        wrap.innerHTML = `<div class="hdc-chat__msg-avatar">H</div><div class="hdc-chat__msg-content">${html}</div>`;
+      } else {
+        wrap.innerHTML = `<div class="hdc-chat__msg-bubble hdc-chat__msg-bubble--user">${html}</div>`;
+      }
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    /* ── Typing indicator ──────────────────────────────────── */
+    function showTyping() {
+      const el = document.createElement('div');
+      el.className = 'hdc-chat__msg hdc-chat__msg--bot hdc-chat__typing';
+      el.id = 'hdc-typing';
+      el.innerHTML = `<div class="hdc-chat__msg-avatar">H</div><div class="hdc-chat__msg-content"><span class="hdc-chat__dot"></span><span class="hdc-chat__dot"></span><span class="hdc-chat__dot"></span></div>`;
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+    }
+    function hideTyping() {
+      const el = document.getElementById('hdc-typing');
+      if (el) el.remove();
+    }
+
+    /* ── Send Message ────────────────────────────────────────── */
+    function sendMessage(text) {
+      const q = text.trim();
+      if (!q) return;
+      addMessage(q, 'user');
+      input.value = '';
+
+      showTyping();
+      setTimeout(() => {
+        hideTyping();
+        addMessage(findAnswer(q), 'bot');
+      }, 700 + Math.random() * 400);
+    }
+
+    sendBtn.addEventListener('click', () => sendMessage(input.value));
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendMessage(input.value);
+    });
+
+    /* ── Quick reply chips ────────────────────────────────────── */
+    document.querySelectorAll('.hdc-chat__chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        openChat();
+        sendMessage(chip.dataset.query);
+      });
+    });
+
+    /* ── Auto-open greeting after delay ─────────────────────── */
+    setTimeout(() => {
+      if (!isOpen) {
+        toggle.classList.add('hdc-chat__toggle--notify');
+      }
+    }, 5000);
+  })();
+  </script>
 </body>
 </html>
